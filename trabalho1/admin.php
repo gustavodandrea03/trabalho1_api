@@ -7,8 +7,8 @@ if (!isset($_SESSION['nome']) || $_SESSION['nome'] != 'admin') {
     header("Location: index.php");
     exit();
 }
-   
-$nome = isset($_GET['n']) ? $_GET['n'] : ''; 
+
+$nome = isset($_GET['n']) ? $_GET['n'] : '';
 
 voltar();
 ?>
@@ -120,7 +120,7 @@ voltar();
         <a href="logout.php">Sair</a>
 
         <h2>Produtos</h2>
-        <table>
+        <table id="produtosTabela">
             <tr>
                 <th>ID</th>
                 <th>Produto</th>
@@ -128,30 +128,6 @@ voltar();
                 <th>Quantidade</th>
                 <th>Categoria</th>
             </tr>
-            <?php
-            $produtos = selectDados($connect, 'produtos');
-
-            foreach ($produtos as $produto) {
-                $categoria = selectDados($connect, 'categorias', "id={$produto['categoria_id']}");
-
-                if (!empty($categoria)) {
-                    $catNome = $categoria[0]['nome'];
-                    $catID = $categoria[0]['id'];
-                } else {
-                    $catNome = 'Categoria não encontrada';
-                    $catID = '';
-                }
-            ?>
-            <tr>
-                <td><?php echo $produto['id']; ?></td>
-                <td><?php echo $produto['nome']; ?></td>
-                <td><?php echo $produto['preco']; ?> R$</td>
-                <td><?php echo $produto['quantidade']; ?></td>
-                <td><?php echo $catNome . ' (' . $catID . ')'; ?></td>
-            </tr>
-            <?php
-            }
-            ?>
         </table>
 
         <h2>Adicionar novo Produto</h2>
@@ -242,5 +218,7 @@ voltar();
             <input type="submit" name="cadastroCat" value="Enviar">
         </form>
     </div>
+
+    <script src="produtos.js"></script>
 </body>
 </html>
